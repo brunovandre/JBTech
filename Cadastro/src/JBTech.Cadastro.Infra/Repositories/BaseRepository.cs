@@ -16,7 +16,8 @@ namespace JBTech.Cadastro.Infra.Repositories
 
         private readonly CadastroContext _context;
 
-        public BaseRepository(CadastroContext context, string collectionName)
+        public BaseRepository(
+            CadastroContext context, string collectionName)
         {
             MapClass();
             Collection = context.GetCollection<T>(collectionName);

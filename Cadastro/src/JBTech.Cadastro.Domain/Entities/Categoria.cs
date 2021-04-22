@@ -1,4 +1,5 @@
 ﻿using JBTech.Core.Domain;
+using System;
 
 namespace JBTech.Cadastro.Domain.Entities
 {
@@ -6,10 +7,10 @@ namespace JBTech.Cadastro.Domain.Entities
     {
         public string Nome { get; private set; }
 
-        public Categoria(string nome)
+        public Categoria(string nome, Guid? id = null)
         {
             Nome = nome;
-            GerarId();
+            GerarId(id);
         }
 
         public void Atualizar(string nome)

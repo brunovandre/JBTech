@@ -1,4 +1,6 @@
-﻿using JBTech.Cadastro.Domain.Entities;
+﻿using AutoMapper;
+using JBTech.Cadastro.Domain.Dto.Usuario;
+using JBTech.Cadastro.Domain.Entities;
 using JBTech.Cadastro.Domain.Interfaces.Repositories;
 using JBTech.Cadastro.Domain.Interfaces.Services;
 using JBTech.Core.Notifications;
@@ -10,29 +12,39 @@ namespace JBTech.Cadastro.Domain.Services
     public class UsuarioDomainService : BaseDomainService, IUsuarioDomainService
     {
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IMapper _mapper;
 
         public UsuarioDomainService(
+            IMapper mapper,
             INotificationHandler notificationHandler,
             IUsuarioRepository usuarioRepository):base(notificationHandler)
         {
             _usuarioRepository = usuarioRepository;
+            _mapper = mapper;
         }
 
-        public async Task CriarAsync(Usuario usuario)
+        public async Task<Guid?> CriarAsync(CriarUsuarioDto dto)
         {
-            if (!await _usuarioRepository.CpfeEmailEstaoDisponiveisAsync(usuario.Email, usuario.Cpf)) return;
+            await ValidarSeCpfeEmailEstaoDisponiveis(dto.Email, dto.Cpf);
+
+            var usuario = _mapper.Map<Usuario>(dto);
+
+            if (Notification.HasErrorNotifications()) return null;
 
             await _usuarioRepository.InsertAsync(usuario);
+
+            return usuario.Id;
         }
 
-        public async Task AtualizarAsync(Usuario novoUsuario)
+        public async Task AtualizarAsync(AtualizarUsuarioDto dto)
         {
-            var usuarioDb = await _usuarioRepository.GetByIdAsync(novoUsuario.Id);
-            if (usuarioDb == null) return;
+            var usuarioDb = await _usuarioRepository.GetByIdAsync(dto.Id);
             
-            if (!await _usuarioRepository.CpfeEmailEstaoDisponiveisAsync(novoUsuario.Email, novoUsuario.Cpf)) return;
+            ValidarSeUsuarioExiste(usuarioDb);
 
-            usuarioDb.Atualizar(novoUsuario.Nome, novoUsuario.Sobrenome);
+            usuarioDb.Atualizar(dto.Nome, dto.Sobrenome);
+
+            if (Notification.HasErrorNotifications()) return;
 
             await _usuarioRepository.UpdateAsync(usuarioDb);
         }
@@ -40,11 +52,26 @@ namespace JBTech.Cadastro.Domain.Services
         public async Task InativarAsync(Guid id)
         {
             var usuario = await _usuarioRepository.GetByIdAsync(id);
-            if (usuario == null) return;
+
+            ValidarSeUsuarioExiste(usuario);
 
             usuario.Inativar();
 
+            if (Notification.HasErrorNotifications()) return;
+
             await _usuarioRepository.UpdateAsync(usuario);
+        }
+
+        private void ValidarSeUsuarioExiste(Usuario usuario)
+        {
+            if (usuario == null)
+                NotificarEntidadeNaoEncontrada("Usuario");
+        }
+
+        private async Task ValidarSeCpfeEmailEstaoDisponiveis(string email, string cpf)
+        {
+            if (!await _usuarioRepository.CpfeEmailEstaoDisponiveisAsync(email, cpf))
+                Notification.RaiseError("CpfOuEmailIndisponivel", "E-mail ou Cpf já utilizados");
         }
     }
 }

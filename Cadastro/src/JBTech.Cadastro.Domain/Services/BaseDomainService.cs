@@ -10,5 +10,8 @@ namespace JBTech.Cadastro.Domain.Services
         {
             Notification = notification;
         }
+
+        public void NotificarEntidadeNaoEncontrada(string nomeEntidade)
+           => Notification.RaiseError("NaoEncontrado", $"{nomeEntidade} não encontrado(a).");
     }
 }

@@ -14,7 +14,7 @@ namespace JBTech.Cadastro.Domain.Entities
         public string Telefone { get; private set; }
         public Endereco Endereco { get; private set; }
 
-        public Fornecedor(string nome, string cnpj, string email, string telefone, Endereco endereco)
+        public Fornecedor(string nome, string cnpj, string email, string telefone, Endereco endereco, Guid? id = null)
         {
             Nome = nome;
             CNPJ = cnpj;
@@ -22,13 +22,12 @@ namespace JBTech.Cadastro.Domain.Entities
             Telefone = telefone;
             Endereco = endereco;
 
-            GerarId();
+            GerarId(id);
         }
 
-        public void Atualizar(string nome, string cnpj, string email, string telefone, Endereco endereco)
+        public void Atualizar(string nome, string email, string telefone, Endereco endereco)
         {
             Nome = nome;
-            CNPJ = cnpj;
             Email = email;
             Telefone = telefone;
             Endereco = endereco;

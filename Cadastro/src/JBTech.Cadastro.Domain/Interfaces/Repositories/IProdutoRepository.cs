@@ -8,7 +8,7 @@ namespace JBTech.Cadastro.Domain.Interfaces.Repositories
 {
     public interface IProdutoRepository : IBaseRepository<Produto>
     {
-        Task<bool> NomeEstaDisponivelAsync(string nome);
+        Task<bool> NomeEstaDisponivelAsync(string nome, Guid? id = null);
         Task<bool> ExisteProdutosComEssaCategoriaAsync(Guid id);
         Task<bool> ExisteProdutosComEsseFornecedorAsync(Guid id);
     }

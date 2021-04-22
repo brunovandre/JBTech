@@ -1,4 +1,5 @@
-﻿using JBTech.Cadastro.Domain.Entities;
+﻿using JBTech.Cadastro.Domain.Dto.Produto;
+using JBTech.Cadastro.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,8 +9,8 @@ namespace JBTech.Cadastro.Domain.Interfaces.Services
 {
     public interface IProdutoDomainService
     {
-        Task CriarAsync(Produto produto);
-        Task AtualizarAsync(Produto produto);
+        Task<Guid?> CriarAsync(CriarProdutoDto dto);
+        Task AtualizarAsync(AtualizarProdutoDto dto);
         Task DeletarAsync(Guid id);
     }
 }

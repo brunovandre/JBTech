@@ -15,7 +15,7 @@ namespace JBTech.Core.Domain
             get { return DataDelecao.HasValue; } 
         }
 
-        protected void GerarId()
-            => Id = Id == Guid.Empty ? Guid.NewGuid() : Id;
+        protected void GerarId(Guid? id = null)
+            => Id = !id.HasValue || id == Guid.Empty ? Guid.NewGuid() : id.Value;
     }
 }

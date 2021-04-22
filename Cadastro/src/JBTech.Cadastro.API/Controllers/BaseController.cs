@@ -1,9 +1,6 @@
 ﻿using JBTech.Core.Notifications;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace JBTech.Cadastro.API.Controllers
@@ -16,6 +13,14 @@ namespace JBTech.Cadastro.API.Controllers
         public BaseController(INotificationHandler notification)
         {
             Notification = notification;
+        }
+
+        protected IActionResult RetornarResponse(object data = null)
+        {
+            if (!Notification.HasErrorNotifications())
+                return Ok(data);
+
+            return BadRequest(Notification.GetNotifications());
         }
     }
 }

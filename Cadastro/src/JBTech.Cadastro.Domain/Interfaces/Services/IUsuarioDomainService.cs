@@ -1,15 +1,13 @@
-﻿using JBTech.Cadastro.Domain.Entities;
+﻿using JBTech.Cadastro.Domain.Dto.Usuario;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace JBTech.Cadastro.Domain.Interfaces.Services
 {
     public interface IUsuarioDomainService
     {
-        Task CriarAsync(Usuario usuario);
-        Task AtualizarAsync(Usuario usuario);
+        Task<Guid?> CriarAsync(CriarUsuarioDto dto);
+        Task AtualizarAsync(AtualizarUsuarioDto dto);
         Task InativarAsync(Guid id);
     }
 }

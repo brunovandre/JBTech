@@ -1,5 +1,6 @@
 ﻿using JBTech.Cadastro.Domain.ValueObjects;
 using JBTech.Core.Domain;
+using System;
 using System.Collections.Generic;
 
 namespace JBTech.Cadastro.Domain.Entities
@@ -16,7 +17,7 @@ namespace JBTech.Cadastro.Domain.Entities
         private List<Endereco> _enderecos;
         public IReadOnlyCollection<Endereco> Enderecos => _enderecos?.AsReadOnly();
 
-        public Usuario(string nome, string sobrenome, string email, string senha, string cpf)
+        public Usuario(string nome, string sobrenome, string email, string senha, string cpf, Guid? id = null)
         {
             Nome = nome;
             Sobrenome = sobrenome;
@@ -25,7 +26,7 @@ namespace JBTech.Cadastro.Domain.Entities
             Cpf = cpf;
 
             _enderecos = new List<Endereco>();
-            GerarId();
+            GerarId(id);
         }
 
 

@@ -15,7 +15,7 @@ namespace JBTech.Cadastro.Domain.Entities
         public decimal PrecoVenda { get; private set; }
         public bool Ativo { get; private set; }
 
-        public Produto(string nome, Guid categoriaId, string nomeCategoria, string nomeFornecedor, Guid fornecedorId, bool ativo)
+        public Produto(string nome, Guid categoriaId, string nomeCategoria, string nomeFornecedor, Guid fornecedorId, bool ativo, Guid? id = null)
         {
             Nome = nome;
             CategoriaId = categoriaId;
@@ -24,7 +24,7 @@ namespace JBTech.Cadastro.Domain.Entities
             FornecedorId = fornecedorId;
             Ativo = ativo;
 
-            GerarId();
+            GerarId(id);
         }
 
         public void Atualizar(string nome, Guid categoriaId, string nomeCategoria, string nomeFornecedor, Guid fornecedorId, bool ativo)
