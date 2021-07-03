@@ -16,6 +16,6 @@ namespace JBTech.Cadastro.Infra.Repositories
         }
 
         public async Task<bool> CpfeEmailEstaoDisponiveisAsync(string email, string cpf)
-           => (await Collection.CountDocumentsAsync(x => x.Email.ToLower().Equals(email) || x.Cpf.Equals(cpf))) <= 0;
+           => (await Collection.CountDocumentsAsync(x => x.Email.ToLower() == email.ToLower() || x.Cpf == cpf)) <= 0;
     }
 }

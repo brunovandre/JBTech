@@ -16,7 +16,7 @@ namespace JBTech.Cadastro.API.Controllers
         }
 
         protected IActionResult RetornarResponse(object data = null)
-        {
+        {   
             if (!Notification.HasErrorNotifications())
                 return Ok(data);
 

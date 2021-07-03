@@ -16,7 +16,10 @@ namespace JBTech.Cadastro.Domain.Dto.Produto
 
         [Required(ErrorMessage = "Id do fornecedor é obrigatório")]
         public Guid FornecedorId { get; set; }
-        
+
+        public int TotalEstoque { get; set; }
+        public decimal PrecoCusto { get; set; }
+        public decimal PrecoVenda { get; set; }
         public bool Ativo { get; set; }
     }
 }

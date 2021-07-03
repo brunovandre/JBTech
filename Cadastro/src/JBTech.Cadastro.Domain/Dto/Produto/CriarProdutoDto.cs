@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace JBTech.Cadastro.Domain.Dto.Produto
 {
@@ -17,8 +14,10 @@ namespace JBTech.Cadastro.Domain.Dto.Produto
 
         [Required(ErrorMessage = "Id do fornecedor é obrigatório")]
         public Guid FornecedorId { get; set; }
-
         public bool Ativo { get; set; }
+        public int TotalEstoque { get; set; }
+        public decimal PrecoCusto { get; set; }
+        public decimal PrecoVenda { get; set; }
 
         [JsonIgnore]
         public string NomeCategoria { get; set; }

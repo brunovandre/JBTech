@@ -56,7 +56,7 @@ namespace JBTech.Cadastro.Domain.Services
             var nomeCategoria = await _categoriaRepository.ObterNomePorIdAsync(dto.CategoriaId);
             var nomeFornecedor = await _fornecedorRepository.ObterNomePorIdAsync(dto.FornecedorId);
 
-            produtoDb.Atualizar(dto.Nome, dto.CategoriaId, nomeCategoria, nomeFornecedor, dto.FornecedorId, dto.Ativo);
+            produtoDb.Atualizar(dto.Nome, dto.CategoriaId, nomeCategoria, nomeFornecedor, dto.FornecedorId, dto.PrecoCusto, dto.PrecoVenda, dto.TotalEstoque, dto.Ativo);
 
             if (Notification.HasErrorNotifications()) return;
 

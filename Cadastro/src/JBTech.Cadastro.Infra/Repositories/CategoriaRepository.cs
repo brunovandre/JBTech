@@ -11,14 +11,12 @@ namespace JBTech.Cadastro.Infra.Repositories
     {
         public CategoriaRepository(CadastroContext context) : base(context, CollectionsName.Categoria)
         {
+            
         }
 
         public async Task<bool> NomeEstaDisponivelAsync(string nome, Guid? id = null)
         {
-            if (!string.IsNullOrWhiteSpace(nome))
-                nome = nome.ToUpper();
-
-            var duplicatas =  await Collection.CountDocumentsAsync(x => x.Nome.ToLower().Equals(nome.ToLower()) && !x.Id.Equals(id));
+            var duplicatas =  await Collection.CountDocumentsAsync(x => x.Nome.ToLower() == nome.ToLower() && x.Id != id);
 
             return duplicatas <= 0;
         }

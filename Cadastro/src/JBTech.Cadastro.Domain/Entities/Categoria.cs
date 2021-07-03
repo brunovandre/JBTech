@@ -6,7 +6,7 @@ namespace JBTech.Cadastro.Domain.Entities
     public class Categoria : Entity, IAggregateRoot
     {
         public string Nome { get; private set; }
-
+        
         public Categoria(string nome, Guid? id = null)
         {
             Nome = nome;

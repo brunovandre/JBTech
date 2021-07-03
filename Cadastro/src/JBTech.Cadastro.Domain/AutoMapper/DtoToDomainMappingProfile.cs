@@ -13,13 +13,11 @@ namespace JBTech.Cadastro.API.AutoMapper
     {
         public DtoToDomainMappingProfile()
         {
-
             MapearCategoria();
             MapearFornecedor();
             MapearProduto();
             MapearUsuario();
-
-           
+            MapearEndereco();
         }
 
         public void MapearCategoria()
@@ -40,7 +38,7 @@ namespace JBTech.Cadastro.API.AutoMapper
         {
             CreateMap<CriarProdutoDto, Produto>()
                 .ConstructUsing(p =>
-                    new Produto(p.Nome, p.CategoriaId, null, null, p.FornecedorId, p.Ativo, null));
+                    new Produto(p.Nome, p.CategoriaId, p.NomeCategoria, p.NomeFornecedor, p.FornecedorId, p.PrecoCusto, p.PrecoVenda, p.TotalEstoque, p.Ativo, null));
         }
 
         public void MapearUsuario()

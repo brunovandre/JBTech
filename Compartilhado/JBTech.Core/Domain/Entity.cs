@@ -10,10 +10,7 @@ namespace JBTech.Core.Domain
         public DateTime DataCriacao { get; protected set; }
         public DateTime UltimaModificacao { get; protected set; }
         public DateTime? DataDelecao { get; protected set; }
-
-        public bool Deletado { 
-            get { return DataDelecao.HasValue; } 
-        }
+        public bool Deletado { get; protected set; }
 
         protected void GerarId(Guid? id = null)
             => Id = !id.HasValue || id == Guid.Empty ? Guid.NewGuid() : id.Value;

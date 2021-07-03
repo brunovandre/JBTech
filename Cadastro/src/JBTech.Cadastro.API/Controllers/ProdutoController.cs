@@ -1,4 +1,5 @@
 ﻿using JBTech.Cadastro.Domain.Dto.Produto;
+using JBTech.Cadastro.Domain.Interfaces.Repositories;
 using JBTech.Cadastro.Domain.Interfaces.Services;
 using JBTech.Core.Notifications;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,31 @@ namespace JBTech.Cadastro.API.Controllers
     public class ProdutoController : BaseController
     {
         private readonly IProdutoDomainService _produtoDomainService;
+        private readonly IProdutoRepository _produtoRepository;
 
         public ProdutoController(
             IProdutoDomainService produtoDomainService,
+            IProdutoRepository produtoRepository,
             INotificationHandler notification) : base(notification)
         {
             _produtoDomainService = produtoDomainService;
+            _produtoRepository = produtoRepository;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObterTodosAsync()
+        {
+            var produtos = await _produtoRepository.GetAllAsync();
+
+            return RetornarResponse(produtos);
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> ObterPorIdAsync(Guid id)
+        {
+            var produto = await _produtoRepository.GetByIdAsync(id);
+
+            return RetornarResponse(produto);
         }
 
         [HttpPost]

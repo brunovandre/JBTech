@@ -1,4 +1,5 @@
 ﻿using JBTech.Cadastro.Domain.Dto.Fornecedor;
+using JBTech.Cadastro.Domain.Interfaces.Repositories;
 using JBTech.Cadastro.Domain.Interfaces.Services;
 using JBTech.Core.Notifications;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,31 @@ namespace JBTech.Cadastro.API.Controllers
     public class FornecedorController : BaseController
     {
         private readonly IFornecedorDomainService _fornecedorDomainService;
+        private readonly IFornecedorRepository _fornecedorRepository;
 
         public FornecedorController(
             IFornecedorDomainService fornecedorDomainService,
+            IFornecedorRepository fornecedorRepository,
             INotificationHandler notification) : base(notification)
         {
             _fornecedorDomainService = fornecedorDomainService;
+            _fornecedorRepository = fornecedorRepository;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObterTodosAsync()
+        {
+            var fornecedores = await _fornecedorRepository.GetAllAsync();
+
+            return RetornarResponse(fornecedores);
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> ObterPorIdAsync(Guid id)
+        {
+            var fornecedor = await _fornecedorRepository.GetByIdAsync(id);
+
+            return RetornarResponse(fornecedor);
         }
 
         [HttpPost]

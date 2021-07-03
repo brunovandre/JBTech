@@ -19,7 +19,7 @@ namespace JBTech.Cadastro.Infra.Repositories
         public BaseRepository(
             CadastroContext context, string collectionName)
         {
-            MapClass();
+             //MapClass();
             Collection = context.GetCollection<T>(collectionName);
             _context = context;
         }
@@ -114,30 +114,18 @@ namespace JBTech.Cadastro.Infra.Repositories
             switch (operation)
             {
                 case DatabaseOperationEnum.Insert:
-                    entity.GetType().GetProperty("CreationDate").SetValue(entity, utcNowAuditDate, null);
-                    entity.GetType().GetProperty("LastModificationDate").SetValue(entity, utcNowAuditDate, null);
+                    entity.GetType().GetProperty("DataCriacao").SetValue(entity, utcNowAuditDate, null);
+                    entity.GetType().GetProperty("UltimaModificacao").SetValue(entity, utcNowAuditDate, null);
                     break;
                 case DatabaseOperationEnum.Update:
-                    entity.GetType().GetProperty("LastModificationDate").SetValue(entity, utcNowAuditDate, null);
+                    entity.GetType().GetProperty("DataDelecao").SetValue(entity, utcNowAuditDate, null);
                     break;
                 case DatabaseOperationEnum.Delete:
-                    entity.GetType().GetProperty("DeletionDate").SetValue(entity, utcNowAuditDate, null);
-                    entity.GetType().GetProperty("IsDeleted").SetValue(entity, true, null);
+                    entity.GetType().GetProperty("DataDelecao").SetValue(entity, utcNowAuditDate, null);
+                    entity.GetType().GetProperty("Deletado").SetValue(entity, true, null);
                     break;
                 default:
                     break;
-            }
-        }
-
-        private void MapClass()
-        {
-            if (!BsonClassMap.IsClassMapRegistered(typeof(Entity)))
-            {
-                BsonClassMap.RegisterClassMap<Entity>(cm =>
-                {
-                    cm.AutoMap();
-                    cm.SetIgnoreExtraElements(true);
-                });
             }
         }
     }

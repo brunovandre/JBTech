@@ -1,4 +1,5 @@
 ﻿using JBTech.Cadastro.Domain.Dto.Usuario;
+using JBTech.Cadastro.Domain.Interfaces.Repositories;
 using JBTech.Cadastro.Domain.Interfaces.Services;
 using JBTech.Core.Notifications;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +13,31 @@ namespace JBTech.Cadastro.API.Controllers
     public class UsuarioController : BaseController
     {
         private readonly IUsuarioDomainService _usuarioDomainService;
+        private readonly IUsuarioRepository _usuarioRepository;
 
         public UsuarioController(
             IUsuarioDomainService usuarioDomainService,
+            IUsuarioRepository usuarioRepository,
             INotificationHandler notification) : base(notification)
         {
             _usuarioDomainService = usuarioDomainService;
+            _usuarioRepository = usuarioRepository;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ObterTodosAsync()
+        {
+            var usuarios = await _usuarioRepository.GetAllAsync();
+
+            return RetornarResponse(usuarios);
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> ObterPorIdAsync(Guid id)
+        {
+            var usuario = await _usuarioRepository.GetByIdAsync(id);
+
+            return RetornarResponse(usuario);
         }
 
         [HttpPost]

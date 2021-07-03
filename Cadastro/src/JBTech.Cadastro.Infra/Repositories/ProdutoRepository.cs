@@ -18,7 +18,7 @@ namespace JBTech.Cadastro.Infra.Repositories
             if (!string.IsNullOrWhiteSpace(nome))
                 nome = nome.ToUpper();
 
-            var duplicatas = await Collection.CountDocumentsAsync(x => x.Nome.ToLower().Equals(nome.ToLower()) && !x.Id.Equals(id));
+            var duplicatas = await Collection.CountDocumentsAsync(x => x.Nome.ToLower() == nome.ToLower() && x.Id != id);
 
             return duplicatas <= 0;
         }
